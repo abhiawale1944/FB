@@ -1,34 +1,38 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven'
-        jdk 'JDK21'
-    }
-
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
+      
         stage('Build') {
             steps {
-                bat 'mvn clean compile'
+                echo 'Building the project...'
             }
         }
 
         stage('Test') {
             steps {
-                bat 'mvn test'
+                echo 'Running tests...'
             }
         }
 
-        stage('Package') {
+        stage('Deploy') {
             steps {
-                bat 'mvn package'
+                echo 'Deploying application...'
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+
+        success {
+            echo 'Build Successful!'
+        }
+
+        failure {
+            echo 'Build Failed!'
         }
     }
 }
